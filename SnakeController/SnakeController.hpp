@@ -29,7 +29,7 @@ public:
     Controller(Controller const& p_rhs) = delete;
     Controller& operator=(Controller const& p_rhs) = delete;
 
-    void receive(std::unique_ptr<Event> e) override;
+    void receive(std::shared_ptr<Event> e) override;
 
 private:
     struct Segment
@@ -48,6 +48,11 @@ private:
 
     Direction m_currentDirection;
     std::list<Segment> m_segments;
+
+    void makeAMove(std::shared_ptr<Event> e);
+
+    void catchingBadCastError(const std::bad_cast& error, std::shared_ptr<Event> e);
+    
 };
 
 } // namespace Snake
