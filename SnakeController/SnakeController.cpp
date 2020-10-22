@@ -8,15 +8,13 @@
 
 namespace Snake
 {
-ConfigurationError::ConfigurationError()
-    : std::logic_error("Bad configuration of Snake::Controller.")
-{}
+    ConfigurationError::ConfigurationError()
+    : std::logic_error("Bad configuration of Snake::Controller.") {}
 
-UnexpectedEventException::UnexpectedEventException()
-    : std::runtime_error("Unexpected event received!")
-{}
+    UnexpectedEventException::UnexpectedEventException()
+    : std::runtime_error("Unexpected event received!") {}
 
-Controller::Controller(IPort& p_displayPort, IPort& p_foodPort, IPort& p_scorePort, std::string const& p_config)
+    Controller::Controller(IPort& p_displayPort, IPort& p_foodPort, IPort& p_scorePort, std::string const& p_config)
     : m_displayPort(p_displayPort),
       m_foodPort(p_foodPort),
       m_scorePort(p_scorePort)
