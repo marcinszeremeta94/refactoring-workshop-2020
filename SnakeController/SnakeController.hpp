@@ -52,7 +52,8 @@ private:
     void makeAMove(std::shared_ptr<Event> e);
 
     void catchingBadCastError(const std::bad_cast& error, std::shared_ptr<Event> e);
-    
+    void displayNewFood();
+    void clearOldFood();
 };
 
 } // namespace Snake

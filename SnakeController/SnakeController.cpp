@@ -130,9 +130,7 @@ void Controller::makeAMove(std::shared_ptr<Event> e)
             placeNewHead.x = newHead.x;
             placeNewHead.y = newHead.y;
             placeNewHead.value = Cell_SNAKE;
-
             m_displayPort.send(std::make_unique<EventT<DisplayInd>>(placeNewHead));
-
             m_segments.erase(
                 std::remove_if(
                     m_segments.begin(),
@@ -195,18 +193,22 @@ void Controller::catchingBadCastError(const std::bad_cast& error, std::shared_pt
                 try 
                 {
                     auto requestedFood = *dynamic_cast<EventT<FoodResp> const&>(*e);
-
                     bool requestedFoodCollidedWithSnake = false;
-                    for (auto const& segment : m_segments) {
-                        if (segment.x == requestedFood.x and segment.y == requestedFood.y) {
+                    for (auto const& segment : m_segments) 
+                    {
+                        if (segment.x == requestedFood.x and segment.y == requestedFood.y) 
+                        {
                             requestedFoodCollidedWithSnake = true;
                             break;
                         }
                     }
 
-                    if (requestedFoodCollidedWithSnake) {
+                    if (requestedFoodCollidedWithSnake) 
+                    {
                         m_foodPort.send(std::make_unique<EventT<FoodReq>>());
-                    } else {
+                    } 
+                    else 
+                    {
                         DisplayInd placeNewFood;
                         placeNewFood.x = requestedFood.x;
                         placeNewFood.y = requestedFood.y;
