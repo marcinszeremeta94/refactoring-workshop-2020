@@ -12,6 +12,13 @@ class IPort;
 
 namespace Snake
 {
+class ControllMap{
+    
+    std::pair<int, int> m_mapDimension;
+    bool isPositionOutsideMap(int x, int y) const;
+    friend class Controller;
+};
+
 struct ConfigurationError : std::logic_error
 {
     ConfigurationError();
@@ -26,18 +33,17 @@ class Controller : public IEventHandler
 {
 public:
     Controller(IPort& p_displayPort, IPort& p_foodPort, IPort& p_scorePort, std::string const& p_config);
-
     Controller(Controller const& p_rhs) = delete;
     Controller& operator=(Controller const& p_rhs) = delete;
 
     void receive(std::unique_ptr<Event> e) override;
+    ControllMap map;
 
 private:
     IPort& m_displayPort;
     IPort& m_foodPort;
     IPort& m_scorePort;
 
-    std::pair<int, int> m_mapDimension;
     std::pair<int, int> m_foodPosition;
 
     struct Segment
@@ -61,8 +67,6 @@ private:
     void addHeadSegment(Segment const& newHead);
     void removeTailSegmentIfNotScored(Segment const& newHead);
     void removeTailSegment();
-
-    bool isPositionOutsideMap(int x, int y) const;
 
     void updateFoodPosition(int x, int y, std::function<void()> clearPolicy);
     void sendClearOldFood();
