@@ -67,9 +67,9 @@ void Controller::receive(std::shared_ptr<Event> e)
     {
        makeAMove(e);
     } 
-    catch (const std::bad_cast& error) 
+    catch (const std::bad_cast& badCast) 
     {
-        catchingBadCastError(error, e);
+        catchingBadCastError(badCast, e);
     }
 }
 
