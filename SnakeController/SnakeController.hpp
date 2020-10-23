@@ -32,8 +32,8 @@ public:
     void receive(std::unique_ptr<Event> e) override;
 
 private:
-    void handleTimePassed(const TimeoutInd&);
-    void handleDirectionChange(const DirectionInd&);
+    void handleTimePassed(std::unique_ptr<Event>);
+    void handleDirectionChange(std::unique_ptr<DirectionIndd> directionInd);
     void handleFoodPositionChange(const FoodInd& receivedFood);
     void handleNewFood(const FoodResp& requestedFood);
 
