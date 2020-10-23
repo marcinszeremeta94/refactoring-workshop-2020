@@ -13,9 +13,23 @@ class IPort;
 namespace Snake
 {
 class ControllMap{
-    
-    std::pair<int, int> m_mapDimension;
+    public:
     bool isPositionOutsideMap(int x, int y) const;
+    private:
+    std::pair<int, int> m_mapDimension;
+    friend class Controller;
+};
+
+class ControllFood{
+    ControllFood(IPort& p, IPort& fp, Controller* c) : m_displayPort{p}, m_foodPort{fp}, control{c} {}
+    private:
+    Controller* control;
+    IPort& m_displayPort;
+    IPort& m_foodPort;
+    std::pair<int, int> m_foodPosition;
+    void updateFoodPosition(int x, int y, std::function<void()> clearPolicy);
+    void sendClearOldFood();
+    void sendPlaceNewFood(int x, int y);
     friend class Controller;
 };
 
@@ -38,13 +52,12 @@ public:
 
     void receive(std::unique_ptr<Event> e) override;
     ControllMap map;
+    ControllFood food;
 
 private:
     IPort& m_displayPort;
     IPort& m_foodPort;
     IPort& m_scorePort;
-
-    std::pair<int, int> m_foodPosition;
 
     struct Segment
     {
@@ -68,11 +81,9 @@ private:
     void removeTailSegmentIfNotScored(Segment const& newHead);
     void removeTailSegment();
 
-    void updateFoodPosition(int x, int y, std::function<void()> clearPolicy);
-    void sendClearOldFood();
-    void sendPlaceNewFood(int x, int y);
-
     bool m_paused;
+
+    friend class ControllFood;
 };
 
 } // namespace Snake
