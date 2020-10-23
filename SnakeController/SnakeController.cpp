@@ -97,9 +97,9 @@ void Controller::handleTimePassed(std::unique_ptr<Event>)
     cleanNotExistingSnakeSegments();
 }
 
-void Controller::handleDirectionChange(std::unique_ptr<DirectionInd> directionInd)
+void Controller::handleDirectionChange(const DirectionInd& directionInd)
 {
-    auto direction = directionInd->direction;
+    auto direction = directionInd.direction;
 
     if ((m_currentDirection & 0b01) != (direction & 0b01)) {
         m_currentDirection = direction;
@@ -216,9 +216,9 @@ Controller::Segment Controller::getNewHead() const
 void Controller::receive(std::unique_ptr<Event> e)
 {
         if(e->getMessageId() == 0x20)        handleTimePassed(std::move(e));
-        else if(e->getMessageId() == 0x10)   handleDirectionChange(std::move(static_cast<DirectionInd>(e)));
-        else if(e->getMessageId() == 0x40)   handleFoodPositionChange(std::move(static_cast<FoodInd>(e)));
-        else if(e->getMessageId() == 0x42)   handleNewFood(std::move(static_cast<FoodResp>(e)));
+        else if(e->getMessageId() == 0x10)   handleDirectionChange(*static_cast<EventT<DirectionInd>const&>(*e));
+        else if(e->getMessageId() == 0x40)   handleFoodPositionChange(*static_cast<EventT<FoodInd>const&>(*e));
+        else if(e->getMessageId() == 0x42)   handleNewFood(*static_cast<EventT<FoodResp>const&>(*e));
         else throw UnexpectedEventException();
 }
 

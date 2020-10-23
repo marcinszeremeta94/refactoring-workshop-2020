@@ -33,7 +33,7 @@ public:
 
 private:
     void handleTimePassed(std::unique_ptr<Event>);
-    void handleDirectionChange(std::unique_ptr<DirectionIndd> directionInd);
+    void handleDirectionChange(const DirectionInd& directionInd);
     void handleFoodPositionChange(const FoodInd& receivedFood);
     void handleNewFood(const FoodResp& requestedFood);
 
